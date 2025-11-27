@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-with-ambassador
+spec:
+  containers:
+  - name: app
+    image: nginx
+  - name: ambassador
+    image: haproxy
+    ports:
+    - containerPort: 8080
