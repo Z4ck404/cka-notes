@@ -83,7 +83,20 @@ kubectl uncordon node01
 
 ## etcd Backup & Restore
 
-### Backup
+### Local etcd for Practice (macOS/Linux)
+```bash
+cd cheatsheet/12-cluster-maintenance
+make install   # Download etcd
+make start     # Start in background
+make test      # Put/get test
+make backup    # Snapshot save
+make restore   # Snapshot restore
+make clean     # Remove all
+```
+
+---
+
+### Backup (Kubernetes Cluster)
 ```bash
 ETCDCTL_API=3 etcdctl snapshot save /tmp/etcd-backup.db \
   --endpoints=https://127.0.0.1:2379 \
@@ -95,7 +108,13 @@ ETCDCTL_API=3 etcdctl snapshot save /tmp/etcd-backup.db \
 ETCDCTL_API=3 etcdctl snapshot status /tmp/etcd-backup.db --write-out=table
 ```
 
-### Restore
+### Backup (Local etcd - no TLS)
+```bash
+etcdctl --endpoints=localhost:2379 snapshot save /tmp/etcd-backup.db
+etcdctl snapshot status /tmp/etcd-backup.db --write-out=table
+```
+
+### Restore (Kubernetes Cluster)
 ```bash
 # Stop kube-apiserver (move manifest)
 mv /etc/kubernetes/manifests/kube-apiserver.yaml /tmp/
@@ -111,6 +130,15 @@ vi /etc/kubernetes/manifests/etcd.yaml
 
 # Restore kube-apiserver
 mv /tmp/kube-apiserver.yaml /etc/kubernetes/manifests/
+```
+
+### Restore (Local etcd - no TLS)
+```bash
+# Stop etcd first, then:
+etcdutl snapshot restore /tmp/etcd-backup.db --data-dir=/tmp/etcd-restore
+
+# Start etcd with restored data
+etcd --data-dir=/tmp/etcd-restore
 ```
 
 ### Find etcd Certs
