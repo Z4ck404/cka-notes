@@ -2,23 +2,45 @@
 
 ## Cluster Upgrade (kubeadm)
 
+> **Important:** When upgrading to a new **minor version** (e.g., 1.33 → 1.34), you must update the apt repository first. This is **not required** for patch upgrades within the same minor version (e.g., 1.34.0 → 1.34.1).
+
+### 0. Update Package Repository (Minor Version Upgrades Only)
+```bash
+# Check current repo
+cat /etc/apt/sources.list.d/kubernetes.list
+
+# Edit to point to the new minor version
+vim /etc/apt/sources.list.d/kubernetes.list
+
+# Change from (example):
+deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /
+
+# To:
+deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.34/deb/ /
+
+# Then update package list
+apt update
+```
+
 ### 1. Upgrade Control Plane
 ```bash
 # Check available versions
-apt update
 apt-cache madison kubeadm
 
 # Upgrade kubeadm
-apt-get install -y kubeadm=1.30.0-1.1
+apt-get install -y kubeadm=1.34.0-1.1
 
-# Plan upgrade
-kubeadm upgrade plan
+# Verify kubeadm version
+kubeadm version
+
+# Plan upgrade (shows what will change)
+kubeadm upgrade plan v1.34.0
 
 # Apply upgrade
-kubeadm upgrade apply v1.30.0
+kubeadm upgrade apply v1.34.0
 
 # Upgrade kubelet & kubectl
-apt-get install -y kubelet=1.30.0-1.1 kubectl=1.30.0-1.1
+apt-get install -y kubelet=1.34.0-1.1 kubectl=1.34.0-1.1
 systemctl daemon-reload
 systemctl restart kubelet
 ```
@@ -28,16 +50,34 @@ systemctl restart kubelet
 # On control plane: drain the node
 kubectl drain node01 --ignore-daemonsets --delete-emptydir-data
 
-# SSH to worker node
-apt-get install -y kubeadm=1.30.0-1.1
+# SSH to worker node, then:
+
+# Update package repo (for minor version upgrades)
+vim /etc/apt/sources.list.d/kubernetes.list
+# Update version in URL, then:
+apt update
+
+# Upgrade kubeadm
+apt-get install -y kubeadm=1.34.0-1.1
+
+# Upgrade node config
 kubeadm upgrade node
-apt-get install -y kubelet=1.30.0-1.1 kubectl=1.30.0-1.1
+
+# Upgrade kubelet & kubectl
+apt-get install -y kubelet=1.34.0-1.1 kubectl=1.34.0-1.1
 systemctl daemon-reload
 systemctl restart kubelet
 
 # On control plane: uncordon
 kubectl uncordon node01
 ```
+
+### Quick Reference: Upgrade Order
+1. Update apt repo (minor version only)
+2. Upgrade kubeadm
+3. `kubeadm upgrade plan` → `kubeadm upgrade apply` (control plane) or `kubeadm upgrade node` (workers)
+4. Upgrade kubelet & kubectl
+5. Restart kubelet
 
 ---
 
