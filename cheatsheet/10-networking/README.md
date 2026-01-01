@@ -151,7 +151,33 @@ spec:
 
 ## CNI
 ```bash
+ls /opt/cni/bin/                                       # CNI binaries
 ls /etc/cni/net.d/                                     # CNI config
 cat /etc/cni/net.d/10-flannel.conflist                 # view config
 k get pods -n kube-system | grep -E 'calico|flannel|weave'
+```
+
+---
+
+## Gateway API
+Gateway API is the evolution of Ingress with more expressive routing.
+```yaml
+# Key resources: Gateway, HTTPRoute, TLSRoute
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: my-route
+spec:
+  parentRefs:
+  - name: my-gateway
+  hostnames:
+  - "app.example.com"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api
+    backendRefs:
+    - name: api-svc
+      port: 80
 ```

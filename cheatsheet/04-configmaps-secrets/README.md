@@ -58,6 +58,9 @@ k create secret docker-registry my-reg \
 ```bash
 k get secret my-secret -o jsonpath='{.data.pass}' | base64 -d
 k get secret my-secret -o json | jq -r '.data.pass' | base64 -d
+
+# Docker registry secret
+k get secret my-reg -o json | jq -r '.data[".dockerconfigjson"]' | base64 -d
 ```
 
 ### Use as Environment Variable

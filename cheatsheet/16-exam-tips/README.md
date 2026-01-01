@@ -65,9 +65,14 @@ k create ingress my-ing --rule="h.com/=svc:80" $do > ingress.yaml
 ```bash
 k explain pod.spec.containers
 k explain pod.spec.containers.livenessProbe
+k explain pod.spec.containers.securityContext.capabilities
 k explain pv.spec --recursive | grep -A5 capacity
 k explain deploy.spec.strategy
+k explain deploy.spec.template.spec.imagePullSecrets   # list of secret refs
 k explain pod --recursive | less                       # full reference
+
+# Find API group/version for any resource
+k api-resources | grep <resource>
 ```
 
 ---

@@ -18,3 +18,5 @@
   * [14 - Workloads](cheatsheet/14-workloads/README.md)
   * [15 - JSONPath](cheatsheet/15-jsonpath/README.md)
   * [16 - Exam Tips](cheatsheet/16-exam-tips/README.md)
+  * [17 - Kustomize](cheatsheet/17-kustomize/README.md)
+  * [18 - Helm](cheatsheet/18-helm/README.md)

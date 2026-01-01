@@ -35,6 +35,8 @@ complete -o default -F __start_kubectl k
 | 14 | [Workloads](cheatsheet/14-workloads/README.md) | Jobs, CronJobs, DaemonSets |
 | 15 | [JSONPath](cheatsheet/15-jsonpath/README.md) | Output formatting |
 | 16 | [Exam Tips](cheatsheet/16-exam-tips/README.md) | Time-saving tricks |
+| 17 | [Kustomize](cheatsheet/17-kustomize/README.md) | Manifest customization |
+| 18 | [Helm](cheatsheet/18-helm/README.md) | Package manager, charts |
 
 ---
 

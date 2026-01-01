@@ -19,6 +19,9 @@ k exec -it pod-name -- /bin/bash
 k exec -it pod-name -c container-name -- sh            # specific container
 k exec pod-name -- cat /etc/resolv.conf                # run single command
 k exec pod-name -- env                                 # view env vars
+k exec -it pod-name -- whoami                          # check user
+k exec -it pod-name -- netstat -nplt                   # check listeners
+k exec -it pod-name -- netstat -anp | grep :80         # connections on port
 ```
 
 ## Describe & Events
