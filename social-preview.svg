@@ -1,0 +1,7 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#326CE5"/>
+  <text x="600" y="250" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="white" text-anchor="middle">CKA Cheat Sheet</text>
+  <text x="600" y="340" font-family="Arial, sans-serif" font-size="36" fill="white" text-anchor="middle">Kubernetes Certified Administrator</text>
+  <text x="600" y="400" font-family="Arial, sans-serif" font-size="28" fill="#A0C4FF" text-anchor="middle">kubectl • YAML • Helm • Kustomize • Exam Tips</text>
+  <text x="600" y="520" font-family="Arial, sans-serif" font-size="24" fill="#A0C4FF" text-anchor="middle">2025 Edition</text>
+</svg>
