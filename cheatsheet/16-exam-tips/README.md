@@ -1,5 +1,43 @@
 # Exam Tips
 
+## ⚠️ Validate Before Moving On!
+
+**Always verify your work before moving to the next question.**
+
+| Task | Verification Command | Expected Output |
+|------|---------------------|-----------------|
+| **Workloads** | `k get deploy,po` | READY `1/1`, STATUS `Running` |
+| **Services** | `k exec <pod> -- curl <svc-ip>` | HTTP `200 OK` response |
+| **RBAC** | `k auth can-i <verb> <resource> --as <user>` | `yes` |
+| **Storage** | `k get pv,pvc` | STATUS `Bound` (not `Pending`) |
+| **HPA/VPA** | `k describe hpa <name>` | Check `Targets` and `Replicas` |
+| **Cluster Upgrade** | `k get nodes` | VERSION matches target |
+| **NetworkPolicy** | `k exec <pod> -- curl <target>` | Connection works/blocked as expected |
+| **Secrets/ConfigMaps** | `k exec <pod> -- env \| grep <KEY>` | Value is set correctly |
+
+### Quick Validation Commands
+```bash
+# Check pod is running
+k get po <name> -o wide
+
+# Check service endpoints exist
+k get ep <svc-name>
+
+# Test service connectivity
+k run test --rm -it --image=busybox -- wget -qO- http://<svc>
+
+# Verify RBAC
+k auth can-i get pods --as system:serviceaccount:ns:sa-name
+
+# Check PVC is bound
+k get pvc <name> -o jsonpath='{.status.phase}'
+
+# Verify node version after upgrade
+k get nodes -o wide
+```
+
+---
+
 ## First Things First
 ```bash
 # Set these up immediately!
