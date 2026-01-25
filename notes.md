@@ -1,12 +1,19 @@
-# CKA Exam Cheat Sheet 2025
+# CKA Exam Cheat Sheet 2026
 
-## Exam Setup (DO THIS FIRST)
+## Exam Environment (READ FIRST)
+> ⚠️ **Important:** The CKA exam requires you to **SSH into different nodes/clusters** for each question. Pay close attention to:
+> - The **cluster context** specified at the start of each question
+> - The **node** you need to SSH into (e.g., `ssh node01`)
+> - Aliases and exports set in one SSH session **won't persist** to others
+
 ```bash
-alias k=kubectl
+# Verify these are pre-configured in the exam environment before using:
+alias k=kubectl                                        # usually pre-set
+kubectl completion bash                                # check if available
+
+# Useful exports (set per SSH session if needed):
 export do="--dry-run=client -o yaml"
 export now="--force --grace-period 0"
-source <(kubectl completion bash)
-complete -o default -F __start_kubectl k
 ```
 
 ---
