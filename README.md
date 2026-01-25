@@ -1,4 +1,4 @@
-# CKA Cheat Sheet 2025
+# CKA Cheat Sheet 2026
 
 > Kubernetes Certified Administrator Exam Quick Reference
 
@@ -8,6 +8,7 @@
 > - Check the **cluster context** at the start of each question
 > - **SSH into the correct node** as instructed (e.g., `ssh node01`)
 > - Remember that aliases/exports **don't persist** across SSH sessions
+> - Use `exit` to leave a node and return to the main exam terminal
 
 ```bash
 # Verify these are pre-configured before using:
@@ -43,6 +44,18 @@ export now="--force --grace-period 0"
 | 16 | [Exam Tips](cheatsheet/16-exam-tips/README.md) | Time-saving tricks |
 | 17 | [Kustomize](cheatsheet/17-kustomize/README.md) | Manifest customization |
 | 18 | [Helm](cheatsheet/18-helm/README.md) | Package manager, charts |
+
+---
+
+## Resources
+
+> 📚 **Recommended resources to prepare for the CKA exam (in addition to this guide):**
+
+| Resource | Description |
+|----------|-------------|
+| [KodeKloud CKA Learning Path](https://learn.kodekloud.com/user/learning-paths/cka) | Comprehensive course with hands-on labs |
+| [iximiuz Labs](https://labs.iximiuz.com/) | Instant environments to practice in near real-world scenarios |
+| [CKA Study Guide by David-VTUK](https://david-vtuk.github.io/CKA-StudyGuide/) | Very detailed explanations and guides |
 
 ---
 
