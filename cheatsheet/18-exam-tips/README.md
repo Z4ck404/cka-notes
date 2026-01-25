@@ -1,93 +1,17 @@
-# Exam Tips
+# Exam Tips ⭐
 
 ## 🖥️ Exam Environment
 
-> ⚠️ **Important:** Each question requires you to **SSH into a specific node/cluster**. Always:
-> - Check the **cluster context** at the start of each question
-> - **SSH into the correct node** as instructed (e.g., `ssh node01`)
-> - Remember that aliases/exports **don't persist** across SSH sessions
-> - Use `exit` to leave a node and return to the main terminal
+> ⚠️ **Important:** Each question requires you to **SSH into a specific node/cluster**.
 
----
+- Check the **cluster context** at the start of each question
+- **SSH into the correct node** as instructed (e.g., `ssh node01`)
+- Aliases/exports **don't persist** across SSH sessions
+- Use `exit` to return to the main terminal
 
-## 📖 Use the Kubernetes Docs Efficiently
-
-> 🔑 **The docs are your best friend!** You have access to [kubernetes.io/docs](https://kubernetes.io/docs) during the exam.
-
-**Best place for copy-paste YAML:** [kubernetes.io/docs/tasks/](https://kubernetes.io/docs/tasks/)
-
-The **Tasks** section contains ready-to-use examples for almost everything:
-- Pod configurations, probes, resources
-- Deployments, Services, Ingress
-- ConfigMaps, Secrets, Volumes
-- RBAC, NetworkPolicy, Security Contexts
-- And much more...
-
-**Tips for fast navigation:**
 ```bash
-# Use the search bar (Ctrl+K or /) to quickly find topics
-# Examples:
-"configure liveness probe"
-"create persistent volume"
-"network policy ingress"
-"service account token"
-```
-
-| What you need | Search for |
-|---------------|------------|
-| Probes | `configure liveness readiness` |
-| PV/PVC | `configure persistent volume` |
-| RBAC | `configure service account` |
-| NetworkPolicy | `declare network policy` |
-| Security Context | `security context pod` |
-| Resource Limits | `assign cpu ram` |
-| Taints/Tolerations | `taint toleration` |
-
----
-
-## ⚠️ Validate Before Moving On!
-
-**Always verify your work before moving to the next question.**
-
-| Task | Verification Command | Expected Output |
-|------|---------------------|-----------------|
-| **Workloads** | `k get deploy,po` | READY `1/1`, STATUS `Running` |
-| **Services** | `k exec <pod> -- curl <svc-ip>` | HTTP `200 OK` response |
-| **RBAC** | `k auth can-i <verb> <resource> --as <user>` | `yes` |
-| **Storage** | `k get pv,pvc` | STATUS `Bound` (not `Pending`) |
-| **HPA/VPA** | `k describe hpa <name>` | Check `Targets` and `Replicas` |
-| **Cluster Upgrade** | `k get nodes` | VERSION matches target |
-| **NetworkPolicy** | `k exec <pod> -- curl <target>` | Connection works/blocked as expected |
-| **Secrets/ConfigMaps** | `k exec <pod> -- env \| grep <KEY>` | Value is set correctly |
-
-### Quick Validation Commands
-```bash
-# Check pod is running
-k get po <name> -o wide
-
-# Check service endpoints exist
-k get ep <svc-name>
-
-# Test service connectivity
-k run test --rm -it --image=busybox -- wget -qO- http://<svc>
-
-# Verify RBAC
-k auth can-i get pods --as system:serviceaccount:ns:sa-name
-
-# Check PVC is bound
-k get pvc <name> -o jsonpath='{.status.phase}'
-
-# Verify node version after upgrade
-k get nodes -o wide
-```
-
----
-
-## First Things First
-```bash
-# Verify these are pre-configured in the exam environment:
+# Verify these are pre-configured:
 alias k=kubectl                        # usually pre-set
-kubectl completion bash                # check if available
 
 # Useful exports (set per SSH session if needed):
 export do="--dry-run=client -o yaml"
@@ -96,41 +20,70 @@ export now="--force --grace-period 0"
 
 ---
 
-## Vim Essentials
+## 📖 Kubernetes Docs Navigation
+
+> 🔑 **The docs are open during the exam!** Learn to navigate them quickly.
+
+**Best resource:** [kubernetes.io/docs/tasks/](https://kubernetes.io/docs/tasks/) - Ready-to-copy YAML examples
+
+| What you need | Search for |
+|---------------|------------|
+| Probes | `configure liveness readiness` |
+| PV/PVC | `configure persistent volume` |
+| RBAC | `configure service account` |
+| NetworkPolicy | `declare network policy` |
+| Security Context | `security context pod` |
+| Resource Limits | `assign cpu memory` |
+| Taints/Tolerations | `taint toleration` |
+
+**Allowed documentation:**
+- kubernetes.io/docs
+- kubernetes.io/blog  
+- github.com/kubernetes
+
+---
+
+## 🎯 Exam Strategy
+
+1. **Read all questions first** - Identify easy wins
+2. **Do easy questions first** - Bank points quickly
+3. **Use imperative commands** - Faster than writing YAML
+4. **Generate YAML, then modify** - Use `$do` alias
+5. **Verify after each question** - Don't assume it worked
+6. **Flag difficult questions** - Return if time permits
+7. **Don't over-engineer** - Do exactly what's asked
+
+### Common Mistakes to Avoid
+- **Forgetting namespace** - Use `-n` or set context
+- **Wrong YAML indentation** - Use `k explain` to verify
+- **Typos in labels/selectors** - Copy-paste when possible
+- **Not reading carefully** - Check namespace, names, values
+
+---
+
+## ✅ Validate Your Work
+
+**Always verify before moving to the next question!**
+
+| Task | Verification | Expected |
+|------|--------------|----------|
+| Pods/Deployments | `k get po -o wide` | STATUS `Running`, READY `1/1` |
+| Services | `k get ep <svc>` | Endpoints exist |
+| RBAC | `k auth can-i <verb> <resource> --as <user>` | `yes` |
+| Storage | `k get pv,pvc` | STATUS `Bound` |
+| NetworkPolicy | `k exec <pod> -- curl <target>` | Works/blocked as expected |
+| Cluster Upgrade | `k get nodes` | VERSION matches target |
+
 ```bash
-# In ~/.vimrc (or type in vim)
-:set number                            # line numbers
-:set tabstop=2                         # tab = 2 spaces
-:set shiftwidth=2                      # indent = 2 spaces
-:set expandtab                         # tabs to spaces
-:set paste                             # paste without auto-indent
-
-# Navigation
-gg                                     # go to top
-G                                      # go to bottom
-:42                                    # go to line 42
-/pattern                               # search forward
-n / N                                  # next/prev match
-
-# Editing
-dd                                     # delete line
-yy                                     # copy line
-p                                      # paste below
-P                                      # paste above
-u                                      # undo
-Ctrl+r                                 # redo
-:%s/old/new/g                          # replace all
-
-# Save & Quit
-:w                                     # save
-:q                                     # quit
-:wq                                    # save and quit
-:q!                                    # quit without saving
+# Quick connectivity test
+k run test --rm -it --image=busybox -- wget -qO- http://<svc>
 ```
 
 ---
 
-## kubectl Generate YAML
+## ⚡ Essential Commands
+
+### Generate YAML
 ```bash
 k run nginx --image=nginx $do > pod.yaml
 k create deploy nginx --image=nginx $do > deploy.yaml
@@ -143,144 +96,84 @@ k create role my-role --verb=get --resource=pods $do > role.yaml
 k create ingress my-ing --rule="h.com/=svc:80" $do > ingress.yaml
 ```
 
----
-
-## kubectl explain (Your Best Friend)
+### kubectl explain
 ```bash
-k explain pod.spec.containers
 k explain pod.spec.containers.livenessProbe
-k explain pod.spec.containers.securityContext.capabilities
 k explain pv.spec --recursive | grep -A5 capacity
-k explain deploy.spec.strategy
-k explain deploy.spec.template.spec.imagePullSecrets   # list of secret refs
-k explain pod --recursive | less                       # full reference
-
-# Find API group/version for any resource
+k explain pod --recursive | less
 k api-resources | grep <resource>
 ```
 
----
-
-## Quick Debugging
+### Debugging
 ```bash
-# Temp pod for testing
-k run test --image=busybox --rm -it -- sh
-k run test --image=busybox --rm -it -- wget -qO- http://my-svc
-k run test --image=busybox --rm -it -- nslookup my-svc
+k run test --image=busybox --rm -it -- sh              # temp debug pod
+k get events --sort-by='.lastTimestamp' | tail -20     # recent events
+k logs <pod> --previous                                # crashed container
+k delete pod <name> $now                               # force delete
+```
 
-# Copy existing pod to edit
-k get pod my-pod -o yaml > debug.yaml
-# Edit debug.yaml, then apply
-
-# Check events
-k get events --sort-by='.lastTimestamp' | tail -20
+### Context & Namespace
+```bash
+kubectl config use-context <context-name>              # switch context
+k config set-context --current --namespace=<ns>        # set default ns
+k config current-context                               # verify context
 ```
 
 ---
 
-## Time-Saving Tricks
+## 📂 Important Paths
+
 ```bash
-# Force delete stuck pods
-k delete pod my-pod $now
-
-# Get all resource types
-k api-resources
-
-# Check what you can do
-k auth can-i --list
-
-# Diff before apply
-k diff -f manifest.yaml
-
-# Count resources
-k get pods --no-headers | wc -l
+/etc/kubernetes/manifests/          # static pods (control plane)
+/etc/kubernetes/pki/                # cluster certificates
+/etc/kubernetes/pki/etcd/           # etcd certificates
+/var/lib/kubelet/config.yaml        # kubelet config
+/var/lib/etcd/                      # etcd data directory
+/etc/cni/net.d/                     # CNI config
 ```
 
----
-
-## Common Mistakes to Avoid
-1. **Forgetting namespace** - Use `-n` or set context
-2. **Wrong indentation in YAML** - Use `k explain` to verify structure
-3. **Typos in labels/selectors** - Copy-paste when possible
-4. **Not reading question carefully** - Check namespace, names, values
-5. **Spending too long on one question** - Flag and move on
-
----
-
-## Context Switching
+### etcd Backup (memorize this!)
 ```bash
-# Exam gives you context commands - USE THEM
-kubectl config use-context <context-name>
-
-# Verify current context
-k config current-context
-k config get-contexts
-
-# Set default namespace for context
-k config set-context --current --namespace=my-ns
-```
-
----
-
-## Documentation Allowed
-- kubernetes.io/docs
-- kubernetes.io/blog
-- github.com/kubernetes
-
-### Useful Bookmarks
-- [kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
-- [API Reference](https://kubernetes.io/docs/reference/kubernetes-api/)
-- [Tasks (How-to)](https://kubernetes.io/docs/tasks/)
-
----
-
-## Exam Strategy
-1. **Read all questions first** - Note easy wins
-2. **Do easy questions first** - Build confidence, bank points
-3. **Use imperative commands** - Faster than writing YAML
-4. **Generate YAML, then modify** - Use `$do` alias
-5. **Verify after each question** - Don't assume it worked
-6. **Flag difficult questions** - Come back if time permits
-7. **Don't over-engineer** - Do exactly what's asked
-
----
-
-## Useful Paths to Remember
-```bash
-/etc/kubernetes/manifests/             # static pods (control plane)
-/etc/kubernetes/pki/                   # certificates
-/etc/kubernetes/pki/etcd/              # etcd certificates
-/var/lib/kubelet/config.yaml           # kubelet config
-/var/lib/etcd/                         # etcd data directory
-/etc/cni/net.d/                        # CNI config
-```
-
----
-
-## Quick Reference
-```bash
-# Static pods location
-/etc/kubernetes/manifests/
-
-# etcd backup
 ETCDCTL_API=3 etcdctl snapshot save /backup.db \
   --endpoints=https://127.0.0.1:2379 \
   --cacert=/etc/kubernetes/pki/etcd/ca.crt \
   --cert=/etc/kubernetes/pki/etcd/server.crt \
   --key=/etc/kubernetes/pki/etcd/server.key
+```
 
-# Check kubelet
+### Troubleshoot Nodes
+```bash
 systemctl status kubelet
-journalctl -u kubelet
-
-# Container runtime
+journalctl -u kubelet -f
 crictl ps
-crictl logs <container-id>
+```
+
+---
+
+## 📝 Vim Quick Reference
+
+```bash
+# Essential settings
+:set number paste tabstop=2 shiftwidth=2 expandtab
+
+# Navigation
+gg / G                    # top / bottom
+:42                       # go to line 42
+/pattern  n/N             # search, next/prev
+
+# Editing
+dd / yy / p               # delete / copy / paste line
+u / Ctrl+r                # undo / redo
+
+# Save & Quit
+:wq                       # save and quit
+:q!                       # quit without saving
 ```
 
 ---
 
 ## Good Luck! 🎯
+
 - Stay calm
-- Manage your time  
+- Manage your time
 - Trust your preparation
