@@ -2,15 +2,21 @@
 
 > Kubernetes Certified Administrator Exam Quick Reference
 
-## Quick Start
+## Exam Environment
+
+> ⚠️ **Important:** Each CKA exam question requires you to **SSH into a specific node/cluster**. Always:
+> - Check the **cluster context** at the start of each question
+> - **SSH into the correct node** as instructed (e.g., `ssh node01`)
+> - Remember that aliases/exports **don't persist** across SSH sessions
 
 ```bash
-# Set up aliases (do this first in exam!)
-alias k=kubectl
+# Verify these are pre-configured before using:
+alias k=kubectl                                        # usually pre-set
+kubectl completion bash                                # check if available
+
+# Useful exports (set per SSH session if needed):
 export do="--dry-run=client -o yaml"
 export now="--force --grace-period 0"
-source <(kubectl completion bash)
-complete -o default -F __start_kubectl k
 ```
 
 ---
