@@ -1,8 +1,8 @@
 # CKA Cheat Sheet 2026
 
-> Kubernetes Certified Administrator Exam Quick Reference
+> ☸️ Kubernetes Certified Administrator Exam Quick Reference
 
-## Exam Environment
+## 🖥️ Exam Environment
 
 > ⚠️ **Important:** Each CKA exam question requires you to **SSH into a specific node/cluster**. Always:
 > - Check the **cluster context** at the start of each question
@@ -22,7 +22,7 @@ export now="--force --grace-period 0"
 
 ---
 
-## Topics
+## 📖 Topics
 
 | # | Topic | Description |
 |---|-------|-------------|
@@ -41,25 +41,27 @@ export now="--force --grace-period 0"
 | 13 | [Security](cheatsheet/13-security/README.md) | Security contexts, PSS |
 | 14 | [Workloads](cheatsheet/14-workloads/README.md) | Jobs, CronJobs, DaemonSets |
 | 15 | [JSONPath](cheatsheet/15-jsonpath/README.md) | Output formatting |
-| 16 | [Exam Tips](cheatsheet/16-exam-tips/README.md) | Time-saving tricks |
-| 17 | [Kustomize](cheatsheet/17-kustomize/README.md) | Manifest customization |
-| 18 | [Helm](cheatsheet/18-helm/README.md) | Package manager, charts |
+| 16 | [Kustomize](cheatsheet/16-kustomize/README.md) | Manifest customization |
+| 17 | [Helm](cheatsheet/17-helm/README.md) | Package manager, charts |
+| 18 | [Exam Tips](cheatsheet/18-exam-tips/README.md) | ⭐ Time-saving tricks, strategy |
+
+> 💡 **Before the exam, make sure to read the [Exam Tips](cheatsheet/18-exam-tips/README.md)!**
 
 ---
 
-## Resources
+## 📚 Resources
 
-> 📚 **Recommended resources to prepare for the CKA exam (in addition to this guide):**
+> **Recommended resources to prepare for the CKA exam (in addition to this guide):**
 
 | Resource | Description |
 |----------|-------------|
-| [KodeKloud CKA Learning Path](https://learn.kodekloud.com/user/learning-paths/cka) | Comprehensive course with hands-on labs |
-| [iximiuz Labs](https://labs.iximiuz.com/) | Instant environments to practice in near real-world scenarios |
-| [CKA Study Guide by David-VTUK](https://david-vtuk.github.io/CKA-StudyGuide/) | Very detailed explanations and guides |
+| 🎓 [KodeKloud CKA Learning Path](https://learn.kodekloud.com/user/learning-paths/cka) | Comprehensive course with hands-on labs |
+| 🧪 [iximiuz Labs](https://labs.iximiuz.com/) | Instant environments to practice in near real-world scenarios |
+| 📘 [CKA Study Guide by David-VTUK](https://david-vtuk.github.io/CKA-StudyGuide/) | Very detailed explanations and guides |
 
 ---
 
-## Run Locally
+## 🚀 Run Locally
 
 ```bash
 npm install

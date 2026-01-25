@@ -1,5 +1,50 @@
 # Exam Tips
 
+## 🖥️ Exam Environment
+
+> ⚠️ **Important:** Each question requires you to **SSH into a specific node/cluster**. Always:
+> - Check the **cluster context** at the start of each question
+> - **SSH into the correct node** as instructed (e.g., `ssh node01`)
+> - Remember that aliases/exports **don't persist** across SSH sessions
+> - Use `exit` to leave a node and return to the main terminal
+
+---
+
+## 📖 Use the Kubernetes Docs Efficiently
+
+> 🔑 **The docs are your best friend!** You have access to [kubernetes.io/docs](https://kubernetes.io/docs) during the exam.
+
+**Best place for copy-paste YAML:** [kubernetes.io/docs/tasks/](https://kubernetes.io/docs/tasks/)
+
+The **Tasks** section contains ready-to-use examples for almost everything:
+- Pod configurations, probes, resources
+- Deployments, Services, Ingress
+- ConfigMaps, Secrets, Volumes
+- RBAC, NetworkPolicy, Security Contexts
+- And much more...
+
+**Tips for fast navigation:**
+```bash
+# Use the search bar (Ctrl+K or /) to quickly find topics
+# Examples:
+"configure liveness probe"
+"create persistent volume"
+"network policy ingress"
+"service account token"
+```
+
+| What you need | Search for |
+|---------------|------------|
+| Probes | `configure liveness readiness` |
+| PV/PVC | `configure persistent volume` |
+| RBAC | `configure service account` |
+| NetworkPolicy | `declare network policy` |
+| Security Context | `security context pod` |
+| Resource Limits | `assign cpu ram` |
+| Taints/Tolerations | `taint toleration` |
+
+---
+
 ## ⚠️ Validate Before Moving On!
 
 **Always verify your work before moving to the next question.**
@@ -40,12 +85,13 @@ k get nodes -o wide
 
 ## First Things First
 ```bash
-# Set these up immediately!
-alias k=kubectl
+# Verify these are pre-configured in the exam environment:
+alias k=kubectl                        # usually pre-set
+kubectl completion bash                # check if available
+
+# Useful exports (set per SSH session if needed):
 export do="--dry-run=client -o yaml"
 export now="--force --grace-period 0"
-source <(kubectl completion bash)
-complete -o default -F __start_kubectl k
 ```
 
 ---
